@@ -91,12 +91,16 @@ class TextEditor(tk.Tk):
         self.text_field.delete(1.0, tk.END)
 
         # Process to insert the text of the file un the text field
-        with open(self.file.name, 'r+') as opened_file:
-            file_text = opened_file.read()
-            self.text_field.insert(1.0, file_text)
+        try:
+            with open(self.file.name, 'r+') as opened_file:
+                file_text = opened_file.read()
+                self.text_field.insert(1.0, file_text)
 
-            self.title(f'Text Editor - {self.file.name}')
-            self.text_field_frame.config(text=f'{ self.file.name[self.file.name.rindex("/")+1:] }')
+                self.title(f'Text Editor - {self.file.name}')
+                self.text_field_frame.config(text=f'{ self.file.name[self.file.name.rindex("/")+1:] }')
+        except Exception as e:
+            messagebox.showerror('Error', f'There was the next error: {e}')
+            self.quit()
 
     def _save_file(self):
         """
@@ -105,11 +109,15 @@ class TextEditor(tk.Tk):
         """
         if self.file:
             # If the file is already open
-            with open(self.file.name, 'w') as opened_file:
-                text = self.text_field.get(1.0, tk.END)
-                opened_file.write(text)
+            try:
+                with open(self.file.name, 'w') as opened_file:
+                    text = self.text_field.get(1.0, tk.END)
+                    opened_file.write(text)
 
-                messagebox.showinfo('Save process', 'The file was saved successfully')
+                    messagebox.showinfo('Save process', 'The file was saved successfully')
+            except Exception as e:
+                messagebox.showerror('Error', f'There was the next error: {e}')
+                self.quit()
         else:
             # If is a new file, it redirects to the save as functionality
             self._save_as_file()
@@ -129,13 +137,17 @@ class TextEditor(tk.Tk):
             return
 
         # Process to save the content of text field in a file
-        with open(self.file, 'w') as self.file:
-            text = self.text_field.get(1.0, tk.END)
-            self.file.write(text)
+        try:
+            with open(self.file, 'w') as self.file:
+                text = self.text_field.get(1.0, tk.END)
+                self.file.write(text)
 
-            self.title(f'Text Editor - {self.file.name}')
-            self.text_field_frame.config(text=f'{self.file.name[self.file.name.rindex("/") + 1:]}')
-            messagebox.showinfo('Save process', 'The file was saved successfully')
+                self.title(f'Text Editor - {self.file.name}')
+                self.text_field_frame.config(text=f'{self.file.name[self.file.name.rindex("/") + 1:]}')
+                messagebox.showinfo('Save process', 'The file was saved successfully')
+        except Exception as e:
+            messagebox.showerror('Error', f'There was the next error: {e}')
+            self.quit()
 
 
 if __name__ == '__main__':
