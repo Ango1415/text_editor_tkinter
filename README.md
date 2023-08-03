@@ -7,4 +7,4 @@ Technologies:
 How to run:
 - Execute the script *_text_editor.py_*
 
-Explanatory video: 
+Explanatory video: https://youtu.be/LkXjOdBYtQU
